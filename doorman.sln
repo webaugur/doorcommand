@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doorman", "doorman.vcproj", "{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getopt_mb_uni_dll", "getopt_mb_uni_dll\getopt_mb_uni_vc6_dll.vcproj", "{EDA0641C-48CD-42A0-A393-2B2F9552259C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}.Debug.ActiveCfg = Debug|Win32
+		{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}.Debug.Build.0 = Debug|Win32
+		{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}.Release.ActiveCfg = Release|Win32
+		{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}.Release.Build.0 = Release|Win32
+		{EDA0641C-48CD-42A0-A393-2B2F9552259C}.Debug.ActiveCfg = Debug|Win32
+		{EDA0641C-48CD-42A0-A393-2B2F9552259C}.Debug.Build.0 = Debug|Win32
+		{EDA0641C-48CD-42A0-A393-2B2F9552259C}.Release.ActiveCfg = Release|Win32
+		{EDA0641C-48CD-42A0-A393-2B2F9552259C}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

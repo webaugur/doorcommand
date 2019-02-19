@@ -1,2 +1,5 @@
 WSComm_UDP.dll
 WSComm_UDP.tlb
+bin
+Debug
+Release
