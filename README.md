@@ -12,7 +12,7 @@ http://www.chinanordson.com/download.html
 * Unnamed single door board marked with SK900A9010097 barcode. Silkscreen states "2015-01-01 v9901"
 
 ## UNIX x86 Support
-This code is being tested on Wine with Mono for Windows (it auto-installs) under Linux and macOS. .Net 1.1 Framework tests ended with some kind of execution fault; may revisit later. Under Wine the WComm library errors on both platforms with a UDP comm error. I don't know if this is resolvable but if it is then this application could be used from shell scripts on UNIX-like x86 (32-bit) systems. wine32 on Ubuntu and macPorts are used for this testing (until something better/working becomes apparent).
+This code is being tested on Wine with Mono for Windows (it auto-installs) under Linux and macOS. .Net 1.1 Framework tests ended with some kind of execution fault; may revisit later. Under Wine the WComm library errors on both platforms with a UDP comm error. (Note: The board sees the UDP packet from the software but the software does not see the reply packet.) I don't know if this is resolvable but if it is then this application could be used from shell scripts on UNIX-like x86 (32-bit) systems. wine32 on Ubuntu and macPorts are used for this testing (until something better/working becomes apparent).
 
 ## Notes
 
