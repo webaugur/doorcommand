@@ -33,3 +33,6 @@ The Ethernet implementation basically emulates RS-485 serial bus (logic analyzer
 ### What I would do differently
 And this is still an option for future...  Leave the door control board the way it is. But replace the Ethernet port with something like an Allwinner H3 based Linux system, with optional audio and video capabilities, that is running crypto based authentication and protocol encryption. Could be as simple as just using SSH with certs and keep the telnet like interface so you can swap out a DLL and use your old software. Old school, set your default shell on the admin account to be a pipe to the serial port. Let the firmware think you are still using telnet. Implement ONVIF Profile-A on the Linux system to allow it to interoperate with more recent security systems without the need for special/proprietary software.
 https://www.onvif.org/profiles/profile-a/
+
+Piggyback something like an Orange Pi Zero onto the USART on the MCU and intercept the serial data on its way to the Ethernet port.  Effectively mirroring the now-unused Ethernet port via SSH on the Orange Pi Zero.  Armbian will run on the hardware using uboot and ONVIF skeleton apps are available in github (topic: onvif).  This would be about a $6 upgrade to a $40 door control board in hardware terms. Software glue just needs to be written.
+http://www.orangepi.org/orangepizero/
