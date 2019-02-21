@@ -64,7 +64,6 @@ public:
             _ip_port = 60000;
             _ip_address = ""; // If IP Address is Empty String Broadcast Mode is enabled
             _status = 0;
-            _swipe_date = "";
             _instance = this;
         } 
         // existing object just needs to be returned
@@ -77,6 +76,7 @@ public:
         \brief Set Serial Number of Door
 
         This serial number is used to communicate with the desired door controller.
+        This must be the FIRST method called on this object before communication can occur.
         This is literally the only access token required. You don't even need to know
         the IP address of the device. This function is not likely to be called publicly
         but there is no reason, currently, not to do so.
@@ -146,7 +146,6 @@ public:
         return _result; /**< [out] Result of the most recent command. */
     }
 
-
     /*!
         \brief set IP Address
 
@@ -196,42 +195,188 @@ public:
         return _ip_port; /**< [out] IP Port, defaults to 60000. */
     }
 
+    /*!
+        \brief set Status
+
+        Holds the Status of Most Recently Executed Command. Mostly internally use.
+    */
+    DoorCommand* setStatus(__int64 status/**< [in] Status code. */)
+    {
+        _status = status;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Status
+
+        Gets the status of the most recently executed command
+    */
+    __int64 getStatus()
+    {
+        return _status; /**< [out] Status of most recent command. */
+    }
+
+    
+
+    /*!
+        \brief set Date & Time
+
+        Holds the Status of Most Recently Executed Command. Mostly internally use.
+    */
+    DoorCommand* setDateTime(String* date_time/**< [in] Date on Board RTC. */)
+    {
+        _date_time = date_time;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Date & Time
+
+        Gets the date from the hardware
+    */
+    String* getDateTime()
+    {
+        return _date_time; /**< [out] Date and Time from Controller board. */
+    }
+
+
+  
+
+    /*!
+        \brief set Valid Card Count
+
+        Holds the number of valid card presentations
+    */
+    DoorCommand* setValidCardCount(__int64 valid_card_count /**< [in] Total Number of Valid Cards Presented. */)
+    {
+        _valid_card_count = valid_card_count;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Date & Time
+
+        Gets the date from the hardware
+    */
+    __int64 getValidCardCount()
+    {
+        return _valid_card_count; /**< [out] Date and Time from Controller board. */
+    }
+
+
+
+/* 
+    Need getters and setters for these
+    __int64                     _valid_card_count;       //!< Total count of valid swipes
+    __int64                     _permission_total;  //!< Total number of permission records
+*/
+
+    DoorCommand* executeCommand(String* command)
+    {
+        
+        // Set the Command
+        this->setCommand ( 
+            this->_connection->CreateBstrCommand(this->getSerial(), command)
+        );
+
+        // Execute the Command
+        this->setResult(
+            this->_connection->udp_comm(
+                this->getCommand(), 
+                this->getIPAddress(), 
+                this->getIPPort()
+            )
+        );
+
+        // If an error occurred or frame is empty 
+        if((0 != this->_connection->ErrCode) || (this->getResult()->Length == 0))
+        {
+            throw std::invalid_argument( "UDP Communication Error" );
+        }
+
+        return this->_instance;
+    }
+
+    /*! 
+        \brief Execute Command: RunInformation 
+
+        Retrieves the runtime information from the controller
+    
+    */
+    DoorCommand* doorRunInfo()
+    {
+        this->executeCommand("811000000000");
+        // set the date time from hardware
+        this->setDateTime(
+            this->_connection->GetClockTimeFromRunInfo(this->getResult())
+        );
+
+
+        this->setValidCardCount(this->_connection->GetCardRecordCountFromRunInfo(this->getResult()));
+
+        return this->_instance;
+    }
+
+    DoorCommand* doorOpen(int number_door){
+        this->executeCommand("9D1001");
+        return this->_instance;
+    }
 
 
 private:
-    static DoorCommand          *_instance    = NULL;    //!< instance of _self
-    WComm_UDP::IWCOMM_OPERATE   *_connection;    //!< .NET UDP object
-    long                        _serial;        //!< controllerSN - Serial Number of the Door to Command
-    String*                     _command;        //!< strCmd - Command, Serial Data Frame
-    String*                     _result;        //!< strFrame - Result of Command, Serial Data Frame
-    int                         _ip_port;        //!< ipPort - Controller TCP Port
-    String*                     _ip_address;    //!< ipAddr - Controller IP Address
-    __int64                     _status;        //!< status - Status     
-    String*                     _swipe_date;    //!< strSwipeDate - Date time
+    static DoorCommand          *_instance      = NULL; //!< instance of _self
+    WComm_UDP::IWCOMM_OPERATE   *_connection;       //!< wudp - .NET UDP object
+    long                        _serial;            //!< controllerSN - Board Serial Number
+    String*                     _command;           //!< strCmd - Command, Serial Data Frame
+    String*                     _result;            //!< strFrame - Result of Command, Serial Data Frame
+    int                         _ip_port;           //!< ipPort - Controller TCP Port
+    String*                     _ip_address;        //!< ipAddr - Controller IP Address
+    __int64                     _status;            //!< status - Status     
+    __int64                     _valid_card_count;       //!< Total count of valid swipes
+    __int64                     _permission_total;  //!< Total number of permission records
+    String*                     _date_time;         //!< Date and Time from Door Controller
 };
 
+void printValidCardCount(DoorCommand* command);
+void printDateTime(DoorCommand* command);
+
+void openDoors(DoorCommand* command, int door_numbers);
 
 int _tmain (int argc, char **argv)
 {
-  int aflag = 0;
-  int bflag = 0;
-  char *cvalue = NULL;
+  int dflag = 0;
+  int vflag = 0;
+  int oflag = 0;
+  int doors = 0;
   int index;
   int c;
 
   opterr = 0;
 
-  while ((c = getopt (argc, argv, "abc:")) != -1)
+   /* Do Door Stuff. Be OutDoorsy. Get Your Door On. */
+   DoorCommand* command = new DoorCommand();
+
+   while ((c = getopt (argc, argv, "a:s:o:p:dv")) != -1)
     switch (c)
       {
       case 'a':
-        aflag = 1;
+            command->setIPAddress(optarg); // set IP address
         break;
-      case 'b':
-        bflag = 1;
+      case 'p':
+            command->setIPPort(atoi(optarg)); // set IP Port
         break;
-      case 'c':
-        cvalue = optarg;
+      case 's':
+            command->setSerial(atoi(optarg)); // set Serial Number
+        break;
+      case 'o':
+            doors = atoi(optarg);
+            oflag = 1; // open doors
+        break;
+      case 'd':
+            dflag = 1;
+        break;
+      case 'v':
+            vflag = 1;
         break;
       case '?':
         if (optopt == 'c')
@@ -247,23 +392,52 @@ int _tmain (int argc, char **argv)
         abort ();
       }
 
-  printf ("aflag = %d, bflag = %d, cvalue = %s\n",
-          aflag, bflag, cvalue);
-
   for (index = optind; index < argc; index++)
     printf ("Non-option argument %s\n", argv[index]);
 
 
+   // print date and time
+   if(dflag){
+        printDateTime(command);
+   }
+
+   // print the valid card count
+   if(dflag){
+        printValidCardCount(command);
+   }
+
+   if(oflag){
+        openDoors(command, doors);
+   }
+
     /* Still doing all the things we used to do */
-    BecauseIUsedToBeOne();
+    //BecauseIUsedToBeOne();
 
     return 0;
 }
 
+/*
+    Print Date and Time from Controller
+*/
+void printDateTime(DoorCommand* command){
+    Console::WriteLine("date_time: {0}", command->doorRunInfo()->getDateTime()); // print controller date-time
+}
 
+/* 
+    \brief Print Valid Card Count from Controller
 
+    This is a count of the total number of cards or keypad 
+    entries presented to the reader since log records were last erased.
 
+*/
+void printValidCardCount(DoorCommand* command){
+    Console::WriteLine("valid_card_count: {0}", command->doorRunInfo()->getValidCardCount().ToString()); // print controller valid card count
+}
 
+void openDoors(DoorCommand* command, int door_numbers){
+    Console::WriteLine("opening_doors: {0}", door_numbers.ToString()); // Open doors
+    command->doorOpen(door_numbers);
+}
 
 
 /* I don't do main() because I used to be one */
