@@ -123,6 +123,9 @@
 				RelativePath=".\AssemblyInfo.cpp">
 			</File>
 			<File
+				RelativePath=".\doorcommand.cpp">
+			</File>
+			<File
 				RelativePath=".\doorman.cpp">
 			</File>
 			<File
@@ -145,6 +148,12 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\doorcommand.h">
+			</File>
+			<File
+				RelativePath=".\doorman.h">
+			</File>
 			<File
 				RelativePath=".\getopt_mb_uni_dll\getopt.h">
 			</File>
