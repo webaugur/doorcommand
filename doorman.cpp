@@ -199,15 +199,15 @@ public:
 
 
 private:
-    static DoorCommand            *_instance    = NULL;    //!< instance of _self
-    WComm_UDP::IWCOMM_OPERATE    *_connection;    //!< .NET UDP object
+    static DoorCommand          *_instance    = NULL;    //!< instance of _self
+    WComm_UDP::IWCOMM_OPERATE   *_connection;    //!< .NET UDP object
     long                        _serial;        //!< controllerSN - Serial Number of the Door to Command
-    String*                        _command;        //!< strCmd - Command, Serial Data Frame
-    String*                        _result;        //!< strFrame - Result of Command, Serial Data Frame
-    int                            _ip_port;        //!< ipPort - Controller TCP Port
-    String*                        _ip_address;    //!< ipAddr - Controller IP Address
-    __int64                        _status;        //!< status - Status     
-    String*                        _swipe_date;    //!< strSwipeDate - Date time
+    String*                     _command;        //!< strCmd - Command, Serial Data Frame
+    String*                     _result;        //!< strFrame - Result of Command, Serial Data Frame
+    int                         _ip_port;        //!< ipPort - Controller TCP Port
+    String*                     _ip_address;    //!< ipAddr - Controller IP Address
+    __int64                     _status;        //!< status - Status     
+    String*                     _swipe_date;    //!< strSwipeDate - Date time
 };
 
 
