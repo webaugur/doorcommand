@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#using <mscorlib.dll>
-
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 
@@ -10,12 +8,12 @@ using namespace System::Runtime::CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("Doorman")];
-[assembly:AssemblyDescriptionAttribute("Control Doors")];
+[assembly:AssemblyTitleAttribute("")];
+[assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("")];
 [assembly:AssemblyProductAttribute("")];
-[assembly:AssemblyCopyrightAttribute("David L Norris")];
+[assembly:AssemblyCopyrightAttribute("")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];		
 

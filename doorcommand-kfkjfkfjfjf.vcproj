@@ -2,10 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="doorman"
-	ProjectGUID="{58AF95DF-E3A1-46F8-A030-D1EBCAF205DA}"
-	RootNamespace="doorman"
-	Keyword="ManagedCProj">
+	Name="doorcommand"
+	ProjectGUID="{25F04A58-1905-4599-BCF4-B97335A17DF8}"
+	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -13,34 +12,32 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			OutputDirectory="Debug"
+			IntermediateDirectory="Debug"
+			ConfigurationType="2"
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/I getopt_mb_uni_dll /I ../doorcommand_dll"
+				AdditionalOptions="/clr"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DOORCOMMAND_EXPORTS"
 				MinimalRebuild="FALSE"
-				BasicRuntimeChecks="0"
 				RuntimeLibrary="1"
-				UsePrecompiledHeader="3"
-				WarningLevel="4"
-				SuppressStartupBanner="FALSE"
-				DebugInformationFormat="3"/>
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="TRUE"
+				DebugInformationFormat="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				AdditionalDependencies="bin\debug\dll\getopt.lib debug\doorcommand.lib"
-				OutputFile="$(OutDir)\$(ProjectName).exe"
+				OutputFile="$(OutDir)/doorcommand.dll"
 				LinkIncremental="2"
+				ModuleDefinitionFile="doorcommand.def"
 				GenerateDebugInformation="TRUE"
-				AssemblyDebug="1"
-				SubSystem="1"/>
+				ProgramDatabaseFile="$(OutDir)/doorcommand.pdb"
+				SubSystem="2"
+				ImportLibrary="$(OutDir)/doorcommand.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -64,26 +61,31 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			OutputDirectory="Release"
+			IntermediateDirectory="Release"
+			ConfigurationType="2"
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				MinimalRebuild="FALSE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DOORCOMMAND_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName).exe"
+				OutputFile="$(OutDir)/doorcommand.dll"
 				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"/>
+				ModuleDefinitionFile="doorcommand.def"
+				GenerateDebugInformation="TRUE"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/doorcommand.lib"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -108,11 +110,13 @@
 	</Configurations>
 	<References>
 		<AssemblyReference
-			RelativePath="mscorlib.dll"/>
+			RelativePath="{ReferencesPath}\mscorlib.dll"/>
 		<AssemblyReference
-			RelativePath="System.dll"/>
+			RelativePath="{ReferencesPath}\System.dll"/>
 		<AssemblyReference
-			RelativePath="System.Data.dll"/>
+			RelativePath="{ReferencesPath}\System.Data.dll"/>
+		<AssemblyReference
+			RelativePath="$(SolutionDir)WComm_UDP.dll"/>
 	</References>
 	<Files>
 		<Filter
@@ -120,10 +124,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\AssemblyInfo.cpp">
+				RelativePath=".\doorcommand.cpp">
 			</File>
 			<File
-				RelativePath=".\doorman.cpp">
+				RelativePath=".\doorcommand.def">
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp">
@@ -146,13 +150,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath=".\doorman.h">
-			</File>
-			<File
-				RelativePath=".\getopt_mb_uni_dll\getopt.h">
-			</File>
-			<File
-				RelativePath=".\resource.h">
+				RelativePath=".\doorcommand.h">
 			</File>
 			<File
 				RelativePath=".\stdafx.h">
@@ -162,12 +160,6 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
-			<File
-				RelativePath=".\app.ico">
-			</File>
-			<File
-				RelativePath=".\app.rc">
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt">

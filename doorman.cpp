@@ -36,7 +36,7 @@
 #include "tchar.h"
 #include "getopt.h"
 #include "doorman.h"
-#include "doorcommand.h"
+#include "doorcommand_dll.h"
 using namespace System;
 
 
@@ -54,6 +54,7 @@ int _tmain (int argc, char **argv)
    /* Do Door Stuff. Be OutDoorsy. Get Your Door On. */
    DoorCommand* command = new DoorCommand();
 
+   /* Humans are constantly arguing with us programs */
    while ((c = getopt (argc, argv, "a:s:o:p:dv")) != -1)
     switch (c)
       {
@@ -93,7 +94,6 @@ int _tmain (int argc, char **argv)
   for (index = optind; index < argc; index++)
     printf ("Non-option argument %s\n", argv[index]);
 
-
    // print date and time
    if(dflag){
         printDateTime(command);
@@ -107,9 +107,6 @@ int _tmain (int argc, char **argv)
    if(oflag){
         openDoors(command, doors);
    }
-
-    /* Still doing all the things we used to do */
-    //BecauseIUsedToBeOne();
 
     return 0;
 }
