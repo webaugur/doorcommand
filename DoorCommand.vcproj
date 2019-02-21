@@ -25,7 +25,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"
 				DebugInformationFormat="3"/>
@@ -33,10 +33,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/noentry"
-				AdditionalDependencies="nochkclr.obj mscoree.lib"
+				AdditionalOptions="/noentry /verbose:lib"
+				AdditionalDependencies="mscoree.lib msvcrtd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="msvcrtd.lib"
+				ForceSymbolReferences="__DllMainCRTStartup@12 "
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"/>
 			<Tool
@@ -114,8 +116,6 @@
 			RelativePath="System.dll"/>
 		<AssemblyReference
 			RelativePath="System.Data.dll"/>
-		<AssemblyReference
-			RelativePath="$(SolutionDir)WComm_UDP.dll"/>
 	</References>
 	<Files>
 		<Filter

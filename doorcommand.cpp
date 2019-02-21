@@ -34,8 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tchar.h"
-#include "getopt.h"
-#include "doorman.h"
+#include "doorcommand.h"
 using namespace System;
 
 /*!< /brief DoorCommand constructor

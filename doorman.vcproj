@@ -20,7 +20,7 @@
 			ManagedExtensions="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/I getopt_mb_uni_dll /I ../doorcommand_dll"
+				AdditionalOptions="/I getopt_mb_uni_dll "
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
@@ -35,7 +35,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				AdditionalDependencies="bin\debug\dll\getopt.lib debug\doorcommand.lib"
+				AdditionalDependencies="bin\debug\dll\getopt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
@@ -107,6 +107,9 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{11D04965-D6AF-41B4-AE9D-BC7645F2C024}"
+			Name="DoorCommand"/>
 		<AssemblyReference
 			RelativePath="mscorlib.dll"/>
 		<AssemblyReference

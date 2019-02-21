@@ -29,15 +29,14 @@
 
 #include "stdafx.h"
 #include <windows.h>
-#include <vcclr.h>
-#include <string>
-#include <iostream>
-#include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include "tchar.h"
-#include "getopt.h"
-#include "doorman.h"
+#include <math.h>
+#include "_vcclrit.h"
+
+#using "WComm_UDP.dll"
+#using <mscorlib.dll>
 using namespace System;
 
 /*!

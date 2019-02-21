@@ -36,7 +36,7 @@
 #include "tchar.h"
 #include "getopt.h"
 #include "doorman.h"
-#include "doorcommand_dll.h"
+
 using namespace System;
 
 
