@@ -1,6 +1,5 @@
 #ifndef DOORMAN_H
 #define DOORMAN_H
-#include "doorcommand.h"
 
 /* I do declare */
 void printValidCardCount(DoorCommand* command);

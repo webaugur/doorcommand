@@ -34,11 +34,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tchar.h"
-#include "getopt.h"
+
+#include "doorcommand.h"
 #include "doorman.h"
+#include "getopt.h"
 
 using namespace System;
-
 
 int _tmain (int argc, char **argv)
 {

@@ -37,276 +37,275 @@
 #include "doorcommand.h"
 using namespace System;
 
-/*!< /brief DoorCommand constructor
-    
-    DoorCommand is arranged as a SingleTon pattern. 
-    Method chaining is available for many operations.
-    */
-DoorCommand::DoorCommand(){
-    // new object needs to be initialized
-    if(!_instance){
-        _connection = new WComm_UDP::WComm_Operate();
-        _serial = 0;
-        _command = "";
-        _result = "";
-        _ip_port = 60000;
-        _ip_address = ""; // If IP Address is Empty String Broadcast Mode is enabled
-        _status = 0;
-        _instance = this;
-    } 
-    // existing object just needs to be returned
-    else {
+    /*!< /brief DoorCommand constructor
+        
+        DoorCommand is arranged as a SingleTon pattern. 
+        Method chaining is available for many operations.
+        */
+    DoorCommand::DoorCommand(){
+        // new object needs to be initialized
+        if(!_instance){
+            _connection = new WComm_UDP::WComm_Operate();
+            _serial = 0;
+            _command = "";
+            _result = "";
+            _ip_port = 60000;
+            _ip_address = ""; // If IP Address is Empty String Broadcast Mode is enabled
+            _status = 0;
             _instance = this;
+        } 
+        // existing object just needs to be returned
+        else {
+                _instance = this;
+        }
     }
-}
 
-/*!
-    \brief Set Serial Number of Door
+    /*!
+        \brief Set Serial Number of Door
 
-    This serial number is used to communicate with the desired door controller.
-    This must be the FIRST method called on this object before communication can occur.
-    This is literally the only access token required. You don't even need to know
-    the IP address of the device. This function is not likely to be called publicly
-    but there is no reason, currently, not to do so.
-*/
-DoorCommand* DoorCommand::setSerial(long serial /**< [in] Door Controller Serial Number. */)
-{
-    _serial = serial;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief Get Serial Number of Door
-
-    The serial number used communicate with the desired door controller.
-*/
-long DoorCommand::getSerial()
-{
-    return _serial; /**< [out] Door Controller Serial Number. */
-}
-
-/*!
-    \brief Next Queued Command
-
-    Holds the next Command to be issued. 
-    This is used mostly internally by specific methods.  
-    Returns Empty String if there is no command to be executed.
-*/
-DoorCommand* DoorCommand::setCommand(String* command/**< [in] Text of Command. */)
-{
-    _command = command;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief Queued Command
-
-    Contains the text of the queued command. Mostly used internally by
-    other methods.
-*/
-String* DoorCommand::getCommand()
-{
-    return _command; /**< [out] Command to be executed (may be ""). */
-}
-
-
-/*!
-    \brief Most Recent Result
-
-    Holds the results of the most recent command
-    This is used mostly internally by specific methods.  
-    Returns Empty String if there is no result.
-*/
-DoorCommand* DoorCommand::setResult(String* result/**< [in] Text of Result. */)
-{
-    _result = result;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief Result from most recent Command
-
-    Contains the text of the queued command. Mostly used internally by
-    other methods.
-*/
-String* DoorCommand::getResult()
-{
-    return _result; /**< [out] Result of the most recent command. */
-}
-
-/*!
-    \brief set IP Address
-
-    Holds the IP Address.
-    If Empty String Broadcast Mode is Used
-*/
-DoorCommand* DoorCommand::setIPAddress(String* ip_address/**< [in] Text of IPv4 Address, Empty = Broadcast. */)
-{
-    _ip_address = ip_address;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief get IP Address
-
-    Contains the text of the IPv4 address of this door.
-*/
-String* DoorCommand::getIPAddress()
-{
-    return _ip_address; /**< [out] IP Address (may be "" for broadcast). */
-}
-
-/*!
-    \brief set IP Port
-
-    Holds the IP Port. Must be an integer 1024-65535
-*/
-DoorCommand* DoorCommand::setIPPort(int ip_port/**< [in] Text of IPv4 Port. */)
-{
-    // bounds check the port number
-    if( (ip_port > 1024) && (ip_port <= 65535) ){
-        _ip_port = ip_port;
+        This serial number is used to communicate with the desired door controller.
+        This must be the FIRST method called on this object before communication can occur.
+        This is literally the only access token required. You don't even need to know
+        the IP address of the device. This function is not likely to be called publicly
+        but there is no reason, currently, not to do so.
+    */
+    DoorCommand* DoorCommand::setSerial(long serial /**< [in] Door Controller Serial Number. */)
+    {
+        _serial = serial;
         return _instance; /**< [out] instance of self for method chaining. */
     }
-    else {
-        throw std::invalid_argument( "IP Port must be 1024-65535" );
-    }
-}
 
-/*!
-    \brief get IP Port
+    /*!
+        \brief Get Serial Number of Door
 
-    Contains the IPv4 port number for this door.
-*/
-int DoorCommand::getIPPort()
-{
-    return _ip_port; /**< [out] IP Port, defaults to 60000. */
-}
-
-/*!
-    \brief set Status
-
-    Holds the Status of Most Recently Executed Command. Mostly internally use.
-*/
-DoorCommand* DoorCommand::setStatus(__int64 status/**< [in] Status code. */)
-{
-    _status = status;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief get Status
-
-    Gets the status of the most recently executed command
-*/
-__int64 DoorCommand::getStatus()
-{
-    return _status; /**< [out] Status of most recent command. */
-}
-
-
-
-/*!
-    \brief set Date & Time
-
-    Holds the Status of Most Recently Executed Command. Mostly internally use.
-*/
-DoorCommand* DoorCommand::setDateTime(String* date_time/**< [in] Date on Board RTC. */)
-{
-    _date_time = date_time;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief get Date & Time
-
-    Gets the date from the hardware
-*/
-String* DoorCommand::getDateTime()
-{
-    return _date_time; /**< [out] Date and Time from Controller board. */
-}
-
-
-
-
-/*!
-    \brief set Valid Card Count
-
-    Holds the number of valid card presentations
-*/
-DoorCommand* DoorCommand::setValidCardCount(__int64 valid_card_count /**< [in] Total Number of Valid Cards Presented. */)
-{
-    _valid_card_count = valid_card_count;
-    return _instance; /**< [out] instance of self for method chaining. */
-}
-
-/*!
-    \brief get Date & Time
-
-    Gets the date from the hardware
-*/
-__int64 DoorCommand::getValidCardCount()
-{
-    return _valid_card_count; /**< [out] Date and Time from Controller board. */
-}
-
-
-
-/* 
-Need getters and setters for these
-__int64                     _valid_card_count;       //!< Total count of valid swipes
-__int64                     _permission_total;  //!< Total number of permission records
-*/
-
-DoorCommand* DoorCommand::executeCommand(String* command)
-{
-    
-    // Set the Command
-    this->setCommand ( 
-        this->_connection->CreateBstrCommand(this->getSerial(), command)
-    );
-
-    // Execute the Command
-    this->setResult(
-        this->_connection->udp_comm(
-            this->getCommand(), 
-            this->getIPAddress(), 
-            this->getIPPort()
-        )
-    );
-
-    // If an error occurred or frame is empty 
-    if((0 != this->_connection->ErrCode) || (this->getResult()->Length == 0))
+        The serial number used communicate with the desired door controller.
+    */
+    long DoorCommand::getSerial()
     {
-        throw std::invalid_argument( "UDP Communication Error" );
+        return _serial; /**< [out] Door Controller Serial Number. */
     }
 
-    return this->_instance;
-}
+    /*!
+        \brief Next Queued Command
 
-/*! 
-    \brief Execute Command: RunInformation 
+        Holds the next Command to be issued. 
+        This is used mostly internally by specific methods.  
+        Returns Empty String if there is no command to be executed.
+    */
+    DoorCommand* DoorCommand::setCommand(String* command/**< [in] Text of Command. */)
+    {
+        _command = command;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
 
-    Retrieves the runtime information from the controller
+    /*!
+        \brief Queued Command
 
-*/
-DoorCommand* DoorCommand::doorRunInfo()
-{
-    this->executeCommand("811000000000");
-    // set the date time from hardware
-    this->setDateTime(
-        this->_connection->GetClockTimeFromRunInfo(this->getResult())
-    );
+        Contains the text of the queued command. Mostly used internally by
+        other methods.
+    */
+    String* DoorCommand::getCommand()
+    {
+        return _command; /**< [out] Command to be executed (may be ""). */
+    }
 
 
-    this->setValidCardCount(this->_connection->GetCardRecordCountFromRunInfo(this->getResult()));
+    /*!
+        \brief Most Recent Result
 
-    return this->_instance;
-}
+        Holds the results of the most recent command
+        This is used mostly internally by specific methods.  
+        Returns Empty String if there is no result.
+    */
+    DoorCommand* DoorCommand::setResult(String* result/**< [in] Text of Result. */)
+    {
+        _result = result;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
 
-DoorCommand* DoorCommand::doorOpen(int number_door){
-    this->executeCommand("9D1001");
-    return this->_instance;
-}
+    /*!
+        \brief Result from most recent Command
 
+        Contains the text of the queued command. Mostly used internally by
+        other methods.
+    */
+    String* DoorCommand::getResult()
+    {
+        return _result; /**< [out] Result of the most recent command. */
+    }
+
+    /*!
+        \brief set IP Address
+
+        Holds the IP Address.
+        If Empty String Broadcast Mode is Used
+    */
+    DoorCommand* DoorCommand::setIPAddress(String* ip_address/**< [in] Text of IPv4 Address, Empty = Broadcast. */)
+    {
+        _ip_address = ip_address;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get IP Address
+
+        Contains the text of the IPv4 address of this door.
+    */
+    String* DoorCommand::getIPAddress()
+    {
+        return _ip_address; /**< [out] IP Address (may be "" for broadcast). */
+    }
+
+    /*!
+        \brief set IP Port
+
+        Holds the IP Port. Must be an integer 1024-65535
+    */
+    DoorCommand* DoorCommand::setIPPort(int ip_port/**< [in] Text of IPv4 Port. */)
+    {
+        // bounds check the port number
+        if( (ip_port > 1024) && (ip_port <= 65535) ){
+            _ip_port = ip_port;
+            return _instance; /**< [out] instance of self for method chaining. */
+        }
+        else {
+            throw std::invalid_argument( "IP Port must be 1024-65535" );
+        }
+    }
+
+    /*!
+        \brief get IP Port
+
+        Contains the IPv4 port number for this door.
+    */
+    int DoorCommand::getIPPort()
+    {
+        return _ip_port; /**< [out] IP Port, defaults to 60000. */
+    }
+
+    /*!
+        \brief set Status
+
+        Holds the Status of Most Recently Executed Command. Mostly internally use.
+    */
+    DoorCommand* DoorCommand::setStatus(__int64 status/**< [in] Status code. */)
+    {
+        _status = status;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Status
+
+        Gets the status of the most recently executed command
+    */
+    __int64 DoorCommand::getStatus()
+    {
+        return _status; /**< [out] Status of most recent command. */
+    }
+
+
+
+    /*!
+        \brief set Date & Time
+
+        Holds the Status of Most Recently Executed Command. Mostly internally use.
+    */
+    DoorCommand* DoorCommand::setDateTime(String* date_time/**< [in] Date on Board RTC. */)
+    {
+        _date_time = date_time;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Date & Time
+
+        Gets the date from the hardware
+    */
+    String* DoorCommand::getDateTime()
+    {
+        return _date_time; /**< [out] Date and Time from Controller board. */
+    }
+
+
+
+
+    /*!
+        \brief set Valid Card Count
+
+        Holds the number of valid card presentations
+    */
+    DoorCommand* DoorCommand::setValidCardCount(__int64 valid_card_count /**< [in] Total Number of Valid Cards Presented. */)
+    {
+        _valid_card_count = valid_card_count;
+        return _instance; /**< [out] instance of self for method chaining. */
+    }
+
+    /*!
+        \brief get Date & Time
+
+        Gets the date from the hardware
+    */
+    __int64 DoorCommand::getValidCardCount()
+    {
+        return _valid_card_count; /**< [out] Date and Time from Controller board. */
+    }
+
+
+
+    /* 
+    Need getters and setters for these
+    __int64                     _valid_card_count;       //!< Total count of valid swipes
+    __int64                     _permission_total;  //!< Total number of permission records
+    */
+
+    DoorCommand* DoorCommand::executeCommand(String* command)
+    {
+        
+        // Set the Command
+        this->setCommand ( 
+            this->_connection->CreateBstrCommand(this->getSerial(), command)
+        );
+
+        // Execute the Command
+        this->setResult(
+            this->_connection->udp_comm(
+                this->getCommand(), 
+                this->getIPAddress(), 
+                this->getIPPort()
+            )
+        );
+
+        // If an error occurred or frame is empty 
+        if((0 != this->_connection->ErrCode) || (this->getResult()->Length == 0))
+        {
+            throw std::invalid_argument( "UDP Communication Error" );
+        }
+
+        return this->_instance;
+    }
+
+    /*! 
+        \brief Execute Command: RunInformation 
+
+        Retrieves the runtime information from the controller
+
+    */
+    DoorCommand* DoorCommand::doorRunInfo()
+    {
+        this->executeCommand("811000000000");
+        // set the date time from hardware
+        this->setDateTime(
+            this->_connection->GetClockTimeFromRunInfo(this->getResult())
+        );
+
+
+        this->setValidCardCount(this->_connection->GetCardRecordCountFromRunInfo(this->getResult()));
+
+        return this->_instance;
+    }
+
+    DoorCommand* DoorCommand::doorOpen(int number_door){
+        this->executeCommand("9D1001");
+        return this->_instance;
+    }

@@ -38,6 +38,8 @@
 				AdditionalDependencies="bin\debug\dll\getopt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
+				IgnoreAllDefaultLibraries="FALSE"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
 				SubSystem="1"/>
@@ -107,9 +109,6 @@
 		</Configuration>
 	</Configurations>
 	<References>
-		<ProjectReference
-			ReferencedProjectIdentifier="{11D04965-D6AF-41B4-AE9D-BC7645F2C024}"
-			Name="DoorCommand"/>
 		<AssemblyReference
 			RelativePath="mscorlib.dll"/>
 		<AssemblyReference
@@ -124,6 +123,9 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
 				RelativePath=".\AssemblyInfo.cpp">
+			</File>
+			<File
+				RelativePath=".\doorcommand.cpp">
 			</File>
 			<File
 				RelativePath=".\doorman.cpp">
@@ -148,6 +150,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\doorcommand.h">
+			</File>
 			<File
 				RelativePath=".\doorman.h">
 			</File>

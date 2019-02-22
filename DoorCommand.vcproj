@@ -110,8 +110,13 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{11D04965-D6AF-41B4-AE9D-BC7645F2C024}"
+			Name="DoorCommand"/>
 		<AssemblyReference
 			RelativePath="mscorlib.dll"/>
+		<AssemblyReference
+			RelativePath="$(SolutionDir)..\Debug\office.dll"/>
 		<AssemblyReference
 			RelativePath="System.dll"/>
 		<AssemblyReference

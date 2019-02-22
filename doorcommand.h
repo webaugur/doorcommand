@@ -26,7 +26,6 @@
  */
 #ifndef DOORCOMMAND_H
 #define DOORCOMMAND_H
-
 #include "stdafx.h"
 #include <windows.h>
 #include <stdio.h>
@@ -39,6 +38,14 @@
 #using <mscorlib.dll>
 using namespace System;
 
+/* Door Command Macros */
+#define DOORCOMMAND_DOOR_OPEN  "9D10"   // DD - D=Door 01-04
+#define DOORCOMMAND_DOOR_PARAM "108F"   // DDMMttTT - D=Door 01-04 
+                                        // M=Mode 01-03 (open, closed, controlled),
+                                        // T=time high, t=time low (1E00 = 3 sec, 001E = 768 sec)
+#define DOORCOMMAND_SET_TIME   "8B10"   // YYMMDDWWHHiiss - Year, Month, Day, Week, Hour, Min, Sec
+#define DOORCOMMAND_
+
 /*!
     \brief Door Command Object
 
@@ -47,39 +54,39 @@ using namespace System;
 __gc class DoorCommand
 {
 public:
-    DoorCommand();
-    DoorCommand* setSerial(long serial);
-    long getSerial();
-    DoorCommand* setCommand(String* command);
-    String* getCommand();
-    DoorCommand* setResult(String* result);
-    String* getResult();
-    DoorCommand* setIPAddress(String* ip_address);
-    String* getIPAddress();
-    DoorCommand* setIPPort(int ip_port);
-    int getIPPort();
-    DoorCommand* setStatus(__int64 status);
-    __int64 getStatus();
-    DoorCommand* setDateTime(String* date_time);
-    String* getDateTime();
-    DoorCommand* setValidCardCount(__int64 valid_card_count);
-    __int64 getValidCardCount();
-    DoorCommand* executeCommand(String* command);
-    DoorCommand* doorRunInfo();
-    DoorCommand* doorOpen(int number_door);
+                    DoorCommand();
+    DoorCommand*    setSerial(long serial);
+           long     getSerial();
+    DoorCommand*    setCommand(String* command);
+         String*    getCommand();
+    DoorCommand*    setResult(String* result);
+         String*    getResult();
+    DoorCommand*    setIPAddress(String* ip_address);
+         String*    getIPAddress();
+    DoorCommand*    setIPPort(int ip_port);
+            int     getIPPort();
+    DoorCommand*    setStatus(__int64 status);
+        __int64     getStatus();
+    DoorCommand*    setDateTime(String* date_time);
+         String*    getDateTime();
+    DoorCommand*    setValidCardCount(__int64 valid_card_count);
+        __int64     getValidCardCount();
+    DoorCommand*    executeCommand(String* command);
+    DoorCommand*    doorRunInfo();
+    DoorCommand*    doorOpen(int number_door);
 
 private:
-    static DoorCommand          *_instance      = NULL; //!< instance of _self
-    WComm_UDP::IWCOMM_OPERATE   *_connection;       //!< wudp - .NET UDP object
-    long                        _serial;            //!< controllerSN - Board Serial Number
-    String*                     _command;           //!< strCmd - Command, Serial Data Frame
-    String*                     _result;            //!< strFrame - Result of Command, Serial Data Frame
-    int                         _ip_port;           //!< ipPort - Controller TCP Port
-    String*                     _ip_address;        //!< ipAddr - Controller IP Address
-    __int64                     _status;            //!< status - Status     
-    __int64                     _valid_card_count;       //!< Total count of valid swipes
-    __int64                     _permission_total;  //!< Total number of permission records
-    String*                     _date_time;         //!< Date and Time from Door Controller
+           static DoorCommand     *_instance = NULL;  //!< instance of _self
+    WComm_UDP::IWCOMM_OPERATE     *_connection;       //!< wudp - .NET UDP object handle
+                         long     _serial;            //!< controllerSN - Board Serial Number
+                       String*    _command;           //!< strCmd - Command, Serial Data Frame
+                       String*    _result;            //!< strFrame - Result of Command, Serial Data Frame
+                          int     _ip_port;           //!< ipPort - Controller TCP Port
+                       String*    _ip_address;        //!< ipAddr - Controller IP Address
+                      __int64     _status;            //!< status - Status     
+                      __int64     _valid_card_count;  //!< Total count of valid swipes
+                      __int64     _permission_total;  //!< Total number of permission records
+                       String*    _date_time;         //!< Date and Time from Door Controller
 };
 
 #endif
