@@ -3,10 +3,15 @@ Command Line Door Control Application for NORDSON NS-E100, NS-E200, NS-E400 door
 http://www.chinanordson.com/tcp-ip-network-access-control-board/
 
 ## Dependencies
-You may obtain WComm_UDP.dll, WComm_UDP.tlb, protocol documentation, and related SDK from 
+### MSVC .Net
+For the msvc project you may obtain WComm_UDP.dll, WComm_UDP.tlb, protocol documentation, and related SDK from 
 http://www.chinanordson.com/download.html
 * NS-E Series Access Control Software
 * NS-E Series Access Control Panel SDK
+### Python
+* python 3.7
+* python3-serial
+
 
 ## Known Working non-Nordson boards
 * Unnamed single door board marked with SK900A9010097 barcode. Silkscreen states "2015-01-01 v9901"
