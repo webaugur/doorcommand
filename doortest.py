@@ -4,8 +4,7 @@ import serial
 import time
 import struct
 
-# serial number
-# serno = '2dd2'
+# S/N from board as hex
 serno = 'e63a'
 
 
@@ -36,7 +35,7 @@ DOOR_PAYLOAD = serno + DOOR_TEST
 #    3. x, x is bigger than 0, float allowed, timeout block call
 
 ser = serial.Serial()
-ser.port = "/dev/tty.usbserial"
+ser.port = "/dev/ttyS0"
 ser.baudrate = 9600
 ser.bytesize = serial.EIGHTBITS  # number of bits per bytes
 ser.parity = serial.PARITY_NONE  # set parity check: no parity
